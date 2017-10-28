@@ -1,9 +1,5 @@
 #**Behavioral Cloning** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Behavioral Cloning Project**
@@ -78,18 +74,7 @@ For details about how I created the training data, see the next section.
 
 ####1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
-
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
+My initial approach was to use the simple model proposed in Project Behavioral Cloning - Lesson 7, but the car was driving in cirles. Next, I tried LeNet, this time the car drove until the beginning of the first corner without getting of the track. Accuracy and loss weren't good, so I tried increasing epochs but the model started overfitting. I added dropout models but couldn't get better results. After this, I decided to try the nVidia Autonomous Car Group model with Dropout between each Convolutional model pair. Results were a little bit better, but after the first corner, the car drove into the lake. and the car drove the complete first track. Then I removed the dropout layers and decide to increase the number of images for my train and validation set using left and right camera images with 0.2 correction in steering to make them as center images. 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 ####2. Final Model Architecture

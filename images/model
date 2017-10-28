@@ -1,0 +1,79 @@
+digraph {
+	node [fontname=Arial shape=rectangle]
+	edge [arrowhead=open]
+	0 [label="Lambda
+input: (160, 320, 3)
+" fillcolor=white fontcolor=black style=filled]
+	1 [label="Cropping2D
+cropping: ([50, 20], [0, 0])
+" fillcolor=white fontcolor=black style=filled]
+	0 -> 1
+	2 [label=Convolution2D fillcolor="#AABABA" fontcolor=black style=filled]
+	{
+		20 [label="Convolution2D
+filters: 24
+kernel: (5, 5)
+strides: (2, 2)
+activation: relu
+" fillcolor="#AABABA" fontcolor=black style=filled]
+		21 [label="Convolution2D
+filters: 36
+kernel: (5, 5)
+strides: (2, 2)
+activation: relu
+" fillcolor="#AABABA" fontcolor=black style=filled]
+		20 -> 21
+		22 [label="Convolution2D
+filters: 48
+kernel: (5, 5)
+strides: (2, 2)
+activation: relu
+" fillcolor="#AABABA" fontcolor=black style=filled]
+		21 -> 22
+		23 [label="Convolution2D
+filters: 64
+kernel: (3, 3)
+strides: (1, 1)
+activation: relu
+" fillcolor="#AABABA" fontcolor=black style=filled]
+		22 -> 23
+		24 [label="Convolution2D
+filters: 64
+kernel: (3, 3)
+strides: (1, 1)
+activation: relu
+" fillcolor="#AABABA" fontcolor=black style=filled]
+		23 -> 24
+	}
+	1 -> 2
+	3 [label=Flatten
+ fillcolor=white fontcolor=black style=filled]
+	2 -> 3
+	4 [label=Dense fillcolor="#20FF90" fontcolor=black style=filled]
+	{
+		40 [label="Dense
+input: 8448
+output: 100
+activation: linear
+" fillcolor="#20FF90" fontcolor=black style=filled]
+		41 [label="Dense
+input: 100
+output: 50
+activation: linear
+" fillcolor="#20FF90" fontcolor=black style=filled]
+		40 -> 41
+		42 [label="Dense
+input: 50
+output: 10
+activation: linear
+" fillcolor="#20FF90" fontcolor=black style=filled]
+		41 -> 42
+		43 [label="Dense
+input: 10
+output: 1
+activation: linear
+" fillcolor="#20FF90" fontcolor=black style=filled]
+		42 -> 43
+	}
+	3 -> 4
+}
