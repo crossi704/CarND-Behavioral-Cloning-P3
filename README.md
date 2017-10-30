@@ -33,4 +33,4 @@ model.h5 (a trained Keras model)<br>
 a report writeup file (either markdown or pdf)<br>
 video.mp4 (a video recording of your vehicle driving autonomously around the track for at least one full lap)
 
-## More details on the project, check writeup.md file
+## More details on the project, check writeup_report.md file
