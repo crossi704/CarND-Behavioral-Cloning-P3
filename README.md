@@ -27,8 +27,10 @@ We also want you to create a detailed writeup of the project. Check out the writ
 
 To meet specifications, the project will require submitting five files:
 
-model.py (script used to create and train the model)
-drive.py (script to drive the car - feel free to modify this file)
-model.h5 (a trained Keras model)
-a report writeup file (either markdown or pdf)
+model.py (script used to create and train the model)<br>
+drive.py (script to drive the car - feel free to modify this file)<br>
+model.h5 (a trained Keras model)<br>
+a report writeup file (either markdown or pdf)<br>
 video.mp4 (a video recording of your vehicle driving autonomously around the track for at least one full lap)
+
+# More details on the project, check writeup.md file
