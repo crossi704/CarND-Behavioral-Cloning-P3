@@ -22,89 +22,67 @@ The goals / steps of this project are the following:
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Files Submitted & Code Quality
+### Files Submitted & Code Quality
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
 * writeup_report.md or writeup_report.pdf summarizing the results
+* video.mp4 autonomous drive for at least one lap on track one
 
-####2. Submission includes functional code
+#### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
 python drive.py model.h5
 ```
 
-####3. Submission code is usable and readable
+#### 3. Submission code is usable and readable
 
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My initial approach was to use the simple model proposed in Lesson 7 (Lambda + Flatten layers), but the car was driving in circles. Next, I tried LeNet. Accuracy and loss weren't good. (see section *Solution Design Approach*).
+Finally, I decided to try the nVidia Autonomous Car Group model:
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+![alt text][image2]
 
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+I decided to set only three to four epochs and increase the data set with lots of data, since I removed Dropouts and Maxpooling which at the beginning were making my model keep having high loss rate. 
+After that, the model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+#### 3. Model parameter tuning
 
-####3. Model parameter tuning
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 141).
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+#### 4. Appropriate training data
 
-####4. Appropriate training data
+Training data was chosen to keep the vehicle driving on the road. I used center, left and right cameras from track one and two. I also used techniques such as flipping image and normalization. Images from every position combined with these techniques were used to train the model.
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+### Model Architecture and Training Strategy
 
-For details about how I created the training data, see the next section. 
-
-###Model Architecture and Training Strategy
-
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 
 My initial approach was to use the simple model proposed in Project Behavioral Cloning - Lesson 7, but the car was driving in cirles. Next, I tried LeNet, this time the car drove until the beginning of the first corner without getting of the track. Accuracy and loss weren't good, so I tried increasing epochs but the model started overfitting. I added dropout models but couldn't get better results. After this, I decided to try the nVidia Autonomous Car Group model with Dropout between each Convolutional model pair. Results were a little bit better, but after the first corner, the car drove into the lake. and the car drove the complete first track. Then I removed the dropout layers and decide to increase the number of images for my train and validation set using left and right camera images with 0.2 correction in steering to make them as center images. 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
+The final model architecture (model.py lines 31-48) consisted of a convolution neural network with the following layers and layer sizes (based on nVidia Autonomous Car Group model:
 ![alt text][image1]
 
-####3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+To capture good driving behavior I used a PS4 gamepad. Its key pressure sensitivy helped very much. Laptop's keyboard was doing no good with steering precision. 
+I first recorded one and half lap on track one using center lane driving. Then, I recorded recovery in each special part of the track (on the track near grass, during the curve near the lake, near the bridge, and where the side of the track was was striped white/red). To make it even better after completting the deep neural network pipeline, I tried getting data driving one lap on the second track. To augment the data set, I also flipped images and angles. The model was trained with shuffled data during 3 to 4 epochs.
 
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+After that, the data set was shuffled randomly and 20% of the data was put into a validation set. 
+The validation set helped determine if the model was over or under fitting. The ideal number of epochs was between 3 to 4 as evidenced by the data set/validation set loss chart down below. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
 ![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
